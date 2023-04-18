@@ -15,27 +15,32 @@ import org.springframework.test.web.servlet.result.MockMvcResultMatchers.status
 
 @SpringBootTest
 @AutoConfigureMockMvc
-@TestPropertySource(properties = [
-	"jdbc.driverClassName=org.h2.Driver",
-	"spring.datasource.url=jdbc:h2:mem:myDb;DB_CLOSE_DELAY=-1;DB_CLOSE_ON_EXIT=FALSE",
-	"hibernate.dialect=org.hibernate.dialect.H2Dialect",
-	"hibernate.hbm2ddl.auto=create",
-	"spring.flyway.enabled=false"
-])
-@Sql(statements = ["DELETE FROM demo_user;",
-	"""INSERT INTO demo_user (user_id, first_name, last_name, street, house_no, zip_code, city, state, birthday)
-	VALUES ('22558c65-374e-4de9-a236-014f17814baa', 'Monika', 'Musterfrau', 'Fananenweg', '15', '70771', 'Leinfelden', 'BW', '1970-08-25');"""])
+@TestPropertySource(
+    properties = [
+        "jdbc.driverClassName=org.h2.Driver",
+        "spring.datasource.url=jdbc:h2:mem:myDb;DB_CLOSE_DELAY=-1;DB_CLOSE_ON_EXIT=FALSE",
+        "hibernate.dialect=org.hibernate.dialect.H2Dialect",
+        "hibernate.hbm2ddl.auto=create",
+        "spring.flyway.enabled=false"
+    ]
+)
+@Sql(
+    statements = [
+        "DELETE FROM demo_user;",
+        """INSERT INTO demo_user (user_id, first_name, last_name, street, house_no, zip_code, city, state, birthday)
+	VALUES ('22558c65-374e-4de9-a236-014f17814baa', 'Monika', 'Musterfrau', 'Fananenweg', '15', '70771', 'Leinfelden', 'BW', '1970-08-25');"""
+    ]
+)
 class DemoApplicationTests {
 
-	@Autowired
-	lateinit var mockMvc: MockMvc
+    @Autowired
+    lateinit var mockMvc: MockMvc
 
-	@Test
-	fun requestUsers() {
-		mockMvc.perform(get("/demo/users"))
-				.andDo(MockMvcResultHandlers.print())
-				.andExpect(status().isOk)
-				.andExpect(jsonPath("$[0].firstName", `is`("Monika")))
-	}
-
+    @Test
+    fun requestUsers() {
+        mockMvc.perform(get("/demo/users"))
+            .andDo(MockMvcResultHandlers.print())
+            .andExpect(status().isOk)
+            .andExpect(jsonPath("$[0].firstName", `is`("Monika")))
+    }
 }

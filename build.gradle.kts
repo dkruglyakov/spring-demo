@@ -28,6 +28,9 @@ dependencies {
 		exclude(group = "org.junit.vintage", module = "junit-vintage-engine")
 	}
 	testImplementation("com.h2database:h2:1.3.148")
+	testImplementation("io.mockk:mockk:1.13.2")
+	testImplementation("org.junit.jupiter:junit-jupiter-api")
+	testImplementation("org.junit.jupiter:junit-jupiter-engine")
 }
 
 tasks.withType<Test> {
